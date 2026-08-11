@@ -17,7 +17,7 @@ let package: Package = .init(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-syntax.git", "603.0.0" ..< "604.0.0"),
+        .package(url: "https://github.com/apple/swift-syntax.git", "600.0.0" ..< "604.0.0"),
     ],
     targets: [
         .macro(
