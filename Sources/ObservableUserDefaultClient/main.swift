@@ -10,6 +10,7 @@ import SwiftUI
 // MARK: - Person
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, macCatalyst 17.0, visionOS 1.0, *)
+@MainActor
 @Observable
 final class Person {
     // Use without arguments to access static properties, for example, `UserDefaults.name`.
@@ -44,7 +45,8 @@ final class Person {
     @ObservationIgnored var dict: [String: Int]
 }
 
+@MainActor
 private extension UserDefaults {
-    static let shared: UserDefaults = (suiteName: "SHARED_SUITE_EXAMPLE")!
+    static let shared: UserDefaults = .init(suiteName: "SHARED_SUITE_EXAMPLE")!
     static var name: String = "John Appleseed"
 }
