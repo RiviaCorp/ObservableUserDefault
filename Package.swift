@@ -1,8 +1,8 @@
 // swift-tools-version: 5.10
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
-import PackageDescription
 import CompilerPluginSupport
+import PackageDescription
 
 let package = Package(
     name: "ObservableUserDefault",
@@ -11,11 +11,11 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "ObservableUserDefault",
-            targets: ["ObservableUserDefault"]
+            targets: ["ObservableUserDefault"],
         ),
         .executable(
             name: "ObservableUserDefaultClient",
-            targets: ["ObservableUserDefaultClient"]
+            targets: ["ObservableUserDefaultClient"],
         ),
     ],
     dependencies: [
@@ -30,8 +30,8 @@ let package = Package(
             name: "ObservableUserDefaultMacros",
             dependencies: [
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
-                .product(name: "SwiftCompilerPlugin", package: "swift-syntax")
-            ]
+                .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+            ],
         ),
 
         // Library that exposes a macro as part of its API, which is used in client programs.
@@ -46,7 +46,7 @@ let package = Package(
             dependencies: [
                 "ObservableUserDefaultMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
-            ]
+            ],
         ),
-    ]
+    ],
 )

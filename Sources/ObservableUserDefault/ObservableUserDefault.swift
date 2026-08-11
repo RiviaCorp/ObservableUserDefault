@@ -1,12 +1,21 @@
+//
+//  ObservableUserDefault.swift
+//
+//  Copyright © 2023 Rivia Corp s.r.o.
+//
+
 import Foundation
 
-/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters that read and write the properties in `UserDefaults`.
+/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters
+/// that read and write the properties in `UserDefaults`.
 /// Applying the macro to anything other than a `var` without an accessor block will result in a compile time error.
 ///
 /// The macro can be used with or without an explicit argument.
 ///
-/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store to generate the expanded macro code,
-/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the macro is attached to.
+/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store
+/// to generate the expanded macro code,
+/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the
+/// macro is attached to.
 ///
 /// For example, applying `@ObservableUserDefault` to an `@ObservationIgnored` property inside an `@Observable` class
 ///
@@ -35,7 +44,8 @@ import Foundation
 ///         }
 ///     }
 ///
-/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults` suites.
+/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults`
+/// suites.
 /// When the macro is attached to non-optional types, the arguments must include default values, for example
 ///
 ///     @Observable
@@ -90,21 +100,26 @@ import Foundation
 ///         }
 ///     }
 ///
-/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way that `@Observable` works:
-/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros will conflict, causing errors.
+/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way
+/// that `@Observable` works:
+/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros
+/// will conflict, causing errors.
 @attached(accessor, names: named(get), named(set))
 public macro ObservableUserDefault() = #externalMacro(
     module: "ObservableUserDefaultMacros",
-    type: "ObservableUserDefaultMacro"
+    type: "ObservableUserDefaultMacro",
 )
 
-/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters that read and write the properties in `UserDefaults`.
+/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters
+/// that read and write the properties in `UserDefaults`.
 /// Applying the macro to anything other than a `var` without an accessor block will result in a compile time error.
 ///
 /// The macro can be used with or without an explicit argument.
 ///
-/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store to generate the expanded macro code,
-/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the macro is attached to.
+/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store
+/// to generate the expanded macro code,
+/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the
+/// macro is attached to.
 ///
 /// For example, applying `@ObservableUserDefault` to an `@ObservationIgnored` property inside an `@Observable` class
 ///
@@ -133,7 +148,8 @@ public macro ObservableUserDefault() = #externalMacro(
 ///         }
 ///     }
 ///
-/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults` suites.
+/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults`
+/// suites.
 /// When the macro is attached to non-optional types, the arguments must include default values, for example
 ///
 ///     @Observable
@@ -188,20 +204,26 @@ public macro ObservableUserDefault() = #externalMacro(
 ///         }
 ///     }
 ///
-/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way that `@Observable` works:
-/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros will conflict, causing errors.
+/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way
+/// that `@Observable` works:
+/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros
+/// will conflict, causing errors.
 @attached(accessor, names: named(get), named(set))
-public macro ObservableUserDefault<DefaultValue>(_ metadata: ObservableUserDefaultMetadata<DefaultValue>) = #externalMacro(
-    module: "ObservableUserDefaultMacros",
-    type: "ObservableUserDefaultMacro"
-)
+public macro ObservableUserDefault<DefaultValue>(_ metadata: ObservableUserDefaultMetadata<DefaultValue>) =
+    #externalMacro(
+        module: "ObservableUserDefaultMacros",
+        type: "ObservableUserDefaultMacro",
+    )
 
-/// Use as an argument to the `ObservableUserDefault` macro when attached to non-optional types that require a default value.
+// MARK: - ObservableUserDefaultMetadata
+
+/// Use as an argument to the `ObservableUserDefault` macro when attached to non-optional types that require a default
+/// value.
 public struct ObservableUserDefaultMetadata<DefaultValue> {
     let key: String
     let defaultValue: DefaultValue
     let store: UserDefaults
-    
+
     public init(key: String, defaultValue: DefaultValue, store: UserDefaults) {
         self.key = key
         self.defaultValue = defaultValue
@@ -209,13 +231,16 @@ public struct ObservableUserDefaultMetadata<DefaultValue> {
     }
 }
 
-/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters that read and write the properties in `UserDefaults`.
+/// An attached macro for properties in `@Observable` classes that provides accessor blocks with getters and setters
+/// that read and write the properties in `UserDefaults`.
 /// Applying the macro to anything other than a `var` without an accessor block will result in a compile time error.
 ///
 /// The macro can be used with or without an explicit argument.
 ///
-/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store to generate the expanded macro code,
-/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the macro is attached to.
+/// When an explicit argument is provided, the macro will use the storage key, default value, and `UserDefaults` store
+/// to generate the expanded macro code,
+/// otherwise the macro will provide a static property on `UserDefaults` with the same name as the variable that the
+/// macro is attached to.
 ///
 /// For example, applying `@ObservableUserDefault` to an `@ObservationIgnored` property inside an `@Observable` class
 ///
@@ -244,7 +269,8 @@ public struct ObservableUserDefaultMetadata<DefaultValue> {
 ///         }
 ///     }
 ///
-/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults` suites.
+/// Explicit arguments can be provided to the macro if you want to use specific keys, default values, and `UserDefaults`
+/// suites.
 /// When the macro is attached to non-optional types, the arguments must include default values, for example
 ///
 ///     @Observable
@@ -299,19 +325,24 @@ public struct ObservableUserDefaultMetadata<DefaultValue> {
 ///         }
 ///     }
 ///
-/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way that `@Observable` works:
-/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros will conflict, causing errors.
+/// Note that the `@ObservationIgnored` annotation is necessary when using `@ObservableUserDefault` owing to the way
+/// that `@Observable` works:
+/// Without it, the `@Observable` macro will inject its own getters and setters in the accessor block and the macros
+/// will conflict, causing errors.
 @attached(accessor, names: named(get), named(set))
 public macro ObservableUserDefault(_ metadata: ObservableOptionalUserDefaultMetadata) = #externalMacro(
     module: "ObservableUserDefaultMacros",
-    type: "ObservableUserDefaultMacro"
+    type: "ObservableUserDefaultMacro",
 )
 
-/// Use as an argument to the `ObservableUserDefault` macro when attached to optional types that do not require a default value.
+// MARK: - ObservableOptionalUserDefaultMetadata
+
+/// Use as an argument to the `ObservableUserDefault` macro when attached to optional types that do not require a
+/// default value.
 public struct ObservableOptionalUserDefaultMetadata {
     let key: String
     let store: UserDefaults
-    
+
     public init(key: String, store: UserDefaults) {
         self.key = key
         self.store = store

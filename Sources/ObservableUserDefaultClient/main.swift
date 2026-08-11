@@ -1,46 +1,50 @@
-import SwiftUI
+//
+//  main.swift
+//
+//  Copyright © 2023 Rivia Corp s.r.o.
+//
+
 import ObservableUserDefault
+import SwiftUI
+
+// MARK: - Person
 
 @available(macOS 14.0, iOS 17.0, tvOS 17.0, watchOS 10.0, macCatalyst 17.0, visionOS 1.0, *)
-@Observable final class Person {
-    
+@Observable
+final class Person {
     // Use without arguments to access static properties, for example, `UserDefaults.name`.
     @ObservableUserDefault
-    @ObservationIgnored
-    var name: String
-    
+    @ObservationIgnored var name: String
+
     // Use arguments containing default values when attached to non-optional types.
-    @ObservableUserDefault(.init(key: "ADDRESS_STORAGE_KEY_EXAMPLE", defaultValue: "One Infinite Loop", store: .standard))
-    @ObservationIgnored
-    var address: String
-    
+    @ObservableUserDefault(.init(
+        key: "ADDRESS_STORAGE_KEY_EXAMPLE",
+        defaultValue: "One Infinite Loop",
+        store: .standard,
+    ))
+    @ObservationIgnored var address: String
+
     // Use custom `UserDefaults` suites by specifying the store name.
     @ObservableUserDefault(.init(key: "NUMBER_STORAGE_KEY_EXAMPLE", defaultValue: Int.zero, store: .shared))
-    @ObservationIgnored
-    var number: Int
-    
+    @ObservationIgnored var number: Int
+
     // Use arguments containing no default values when attached to optional types.
     @ObservableUserDefault(.init(key: "DATE_STORAGE_KEY_EXAMPLE", store: .standard))
-    @ObservationIgnored
-    var date: Date?
-    
+    @ObservationIgnored var date: Date?
+
     // Use arguments containing default values when attached to non-optional arrays.
     @ObservableUserDefault(.init(key: "NAMES_STORAGE_KEY_EXAMPLE", defaultValue: ["Tim", "Craig"], store: .shared))
-    @ObservationIgnored
-    var names: [String]
-    
+    @ObservationIgnored var names: [String]
+
     // Use arguments containing no default values when attached to optional arrays.
     @ObservableUserDefault(.init(key: "DATES_STORAGE_KEY_EXAMPLE", store: .standard))
-    @ObservationIgnored
-    var dates: [Date]?
-    
+    @ObservationIgnored var dates: [Date]?
+
     @ObservableUserDefault(.init(key: "DICT_STORAGE_KEY_EXAMPLE", defaultValue: ["Tim": 0941], store: .shared))
-    @ObservationIgnored
-    var dict: [String: Int]
-    
+    @ObservationIgnored var dict: [String: Int]
 }
 
-fileprivate extension UserDefaults {
-    static let shared = UserDefaults(suiteName: "SHARED_SUITE_EXAMPLE")!
+private extension UserDefaults {
+    static let shared: UserDefaults = (suiteName: "SHARED_SUITE_EXAMPLE")!
     static var name: String = "John Appleseed"
 }
