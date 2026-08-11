@@ -80,16 +80,16 @@ public struct ObservableUserDefaultMacro: AccessorMacro {
         }
 
         func keyExpr() -> ExprSyntax? {
-            expr.arguments.first(where: { $0.label?.text == "key" })?.expression
+            expr.arguments.first { $0.label?.text == "key" }?.expression
         }
 
         func defaultValueExpr() -> ExprSyntax? {
-            expr.arguments.first(where: { $0.label?.text == "defaultValue" })?.expression
+            expr.arguments.first { $0.label?.text == "defaultValue" }?.expression
         }
 
         func storeExprDeclName() -> DeclReferenceExprSyntax? {
             expr.arguments
-                .first(where: { $0.label?.text == "store" })?
+                .first { $0.label?.text == "store" }?
                 .expression
                 .as(MemberAccessExprSyntax.self)?
                 .declName
@@ -119,8 +119,9 @@ public struct ObservableUserDefaultMacro: AccessorMacro {
                 }
                 """#,
             ]
+        }
 
-        } else if
+        if
             let type = binding.typeAnnotation?.type, let keyExpr = keyExpr(),
             let storeName = storeExprDeclName()
         {
@@ -144,10 +145,9 @@ public struct ObservableUserDefaultMacro: AccessorMacro {
                 }
                 """#,
             ]
-
-        } else {
-            throw ObservableUserDefaultArgumentError.unableToExtractRequiredValuesFromArgument
         }
+
+        throw ObservableUserDefaultArgumentError.unableToExtractRequiredValuesFromArgument
     }
 }
 
@@ -164,12 +164,16 @@ enum ObservableUserDefaultError: Error, CustomStringConvertible {
         switch self {
             case .notVariableProperty:
                 "'@ObservableUserDefault' can only be applied to variables"
+
             case .propertyMustContainOnlyOneBinding:
                 "'@ObservableUserDefault' cannot be applied to multiple variable bindings"
+
             case .propertyMustHaveNoAccessorBlock:
                 "'@ObservableUserDefault' cannot be applied to computed properties"
+
             case .propertyMustHaveNoInitializer:
                 "'@ObservableUserDefault' cannot be applied to stored properties"
+
             case .propertyMustUseSimplePatternSyntax:
                 "'@ObservableUserDefault' can only be applied to a variables using simple declaration syntax, for example, 'var name: String'"
         }
@@ -188,10 +192,13 @@ enum ObservableUserDefaultArgumentError: Error, CustomStringConvertible {
         switch self {
             case .macroShouldOnlyContainOneArgument:
                 "Must provide an argument when using '@ObservableUserDefault' with parentheses"
+
             case .nonOptionalTypeMustHaveDefaultValue:
                 "'@ObservableUserDefault' arguments on non-optional types must provide default values"
+
             case .optionalTypeShouldHaveNoDefaultValue:
                 "'@ObservableUserDefault' arguments on optional types should not use default values"
+
             case .unableToExtractRequiredValuesFromArgument:
                 "'@ObservableUserDefault' unable to extract the required values from the argument"
         }

@@ -4,7 +4,7 @@
 import CompilerPluginSupport
 import PackageDescription
 
-let package = Package(
+let package: Package = .init(
     name: "ObservableUserDefault",
     platforms: [.macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v6), .macCatalyst(.v13), .visionOS(.v1)],
     products: [
