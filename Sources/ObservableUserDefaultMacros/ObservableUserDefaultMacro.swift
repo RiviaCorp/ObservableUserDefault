@@ -80,7 +80,15 @@ public struct ObservableUserDefaultMacro: AccessorMacro {
         }
 
         func keyExpr() -> ExprSyntax? {
-            expr.arguments.first { $0.label?.text == "key" }?.expression
+            guard let key = expr.arguments.first(where: { $0.label?.text == "key" })?.expression else {
+                return nil
+            }
+
+            if let keyPath = key.as(KeyPathExprSyntax.self) {
+                // Attributes are checked in type context; resolve the instance key only inside generated accessors.
+                return "self[keyPath: \(keyPath)]"
+            }
+            return key
         }
 
         func defaultValueExpr() -> ExprSyntax? {

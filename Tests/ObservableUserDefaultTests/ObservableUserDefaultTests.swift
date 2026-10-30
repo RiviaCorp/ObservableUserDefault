@@ -93,6 +93,44 @@ final class ObservableUserDefaultTests: XCTestCase {
         #endif
     }
 
+    func testObservableUserDefaultWithInstanceStorageKey() throws {
+        #if canImport(ObservableUserDefaultMacros)
+            assertMacroExpansion(
+                #"""
+                @Observable
+                class StorageModel {
+                    let storageKey: String
+                    @ObservableUserDefault(.init(key: \StorageModel.storageKey, defaultValue: false, store: .standard))
+                    @ObservationIgnored
+                    var enabled: Bool
+                }
+                """#,
+                expandedSource:
+                #"""
+                @Observable
+                class StorageModel {
+                    let storageKey: String
+                    @ObservationIgnored
+                    var enabled: Bool {
+                        get {
+                            access(keyPath: \.enabled)
+                            return UserDefaults.standard.value(forKey: self[keyPath: \StorageModel.storageKey]) as? Bool ?? false
+                        }
+                        set {
+                            withMutation(keyPath: \.enabled) {
+                                UserDefaults.standard.set(newValue, forKey: self[keyPath: \StorageModel.storageKey])
+                            }
+                        }
+                    }
+                }
+                """#,
+                macros: testMacros,
+            )
+        #else
+            throw XCTSkip("macros are only supported when running tests for the host platform")
+        #endif
+    }
+
     func testObservableUserDefaultWithIncorrectArgumentOnNonOptionalType() throws {
         #if canImport(ObservableUserDefaultMacros)
             assertMacroExpansion(

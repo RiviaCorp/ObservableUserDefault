@@ -215,6 +215,16 @@ public macro ObservableUserDefault<DefaultValue>(_ metadata: ObservableUserDefau
         type: "ObservableUserDefaultMacro",
     )
 
+/// Reads the storage key from the enclosing instance through an explicit key path.
+/// Use this overload when each instance owns a different persisted preference.
+@attached(accessor, names: named(get), named(set))
+public macro ObservableUserDefault<Root, DefaultValue>(
+    _ metadata: ObservableUserDefaultKeyPathMetadata<Root, DefaultValue>,
+) = #externalMacro(
+    module: "ObservableUserDefaultMacros",
+    type: "ObservableUserDefaultMacro",
+)
+
 // MARK: - ObservableUserDefaultMetadata
 
 /// Use as an argument to the `ObservableUserDefault` macro when attached to non-optional types that require a default

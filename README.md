@@ -104,6 +104,22 @@ final class StorageModel {
 }
 ```
 
+For a non-optional preference with an instance-specific storage key, pass an explicit key path. The generated accessors read the key from that instance, while the existing string-key API stays unchanged.
+
+```swift
+@Observable
+final class StorageModel {
+    @ObservationIgnored private let storageKey: String
+
+    @ObservableUserDefault(.init(key: \StorageModel.storageKey, defaultValue: false, store: .standard))
+    @ObservationIgnored var enabled: Bool
+
+    init(storageKey: String) {
+        self.storageKey = storageKey
+    }
+}
+```
+
 ## Installation
 
 The package can be installed using [Swift Package Manager](https://swift.org/package-manager/). To add ObservableUserDefault to your Xcode project, select *File > Add Package Dependancies...* and search for the repository URL: `https://github.com/davidsteppenbeck/ObservableUserDefault.git`.
